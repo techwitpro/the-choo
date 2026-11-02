@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-playfair: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-poppins: var(--font-poppins), Poppins, system-ui, sans-serif;
+  --font-inter: var(--font-inter), Inter, system-ui, sans-serif;
+
+  --color-choo-bg: #F4F0E9;
+  --color-choo-cream: #FAF7F2;
+  --color-choo-gold: #ECBA61;
+  --color-choo-gold-dark: #D69E3D;
+  --color-choo-teal: #283C4A;
+  --color-choo-dark: #111C24;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #F4F0E9;
+  --foreground: #111C24;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-choo-bg);
+  color: var(--color-choo-dark);
+  font-family: var(--font-poppins);
+  overflow-x: hidden;
+}
+
+/* Custom font utility classes */
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-poppins {
+  font-family: var(--font-poppins);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+/* Smooth keyframes */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(3deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(12px) rotate(-3deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
+
+.animate-float {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111C24;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #283C4A;
+  border-radius: 5px;
+  border: 2px solid #111C24;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ECBA61;
 }
