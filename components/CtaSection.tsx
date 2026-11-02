@@ -42,48 +42,46 @@ export default function CtaSection({ onOpenLocation }: CtaSectionProps) {
         );
       }
 
-      // 2. Kinetic Masked Headline Reveal
-      gsap.from(".cta-line-inner", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.14,
-        duration: 1.15,
-        ease: "power4.out",
+      // 2. Orchestrated CTA Content Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".cta-content",
           start: "top 80%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 3. Subtitle & Button Staggered Entrance
-      gsap.from(".cta-subtitle", {
-        y: 20,
+      tl.from(".cta-word", {
+        y: 40,
         opacity: 0,
-        duration: 0.8,
-        delay: 0.25,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".cta-content",
-          start: "top 80%",
-          once: true,
-        },
-      });
-
-      gsap.from(".cta-btn", {
-        scale: 0.9,
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.4,
-        ease: "back.out(1.8)",
-        scrollTrigger: {
-          trigger: ".cta-content",
-          start: "top 80%",
-          once: true,
-        },
-      });
+        filter: "blur(6px)",
+        stagger: 0.06,
+        duration: 0.85,
+        clearProps: "all",
+      })
+        .from(
+          ".cta-subtitle",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.4"
+        )
+        .from(
+          ".cta-btn",
+          {
+            scale: 0.9,
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            ease: "back.out(1.8)",
+            clearProps: "all",
+          },
+          "-=0.4"
+        );
     },
     { scope: sectionRef }
   );
@@ -91,7 +89,7 @@ export default function CtaSection({ onOpenLocation }: CtaSectionProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-[750px] md:min-h-[880px] lg:h-[958.03px] bg-[#111C24] overflow-hidden flex flex-col justify-between"
+      className="relative w-full min-h-[750px] md:min-h-[880px] lg:min-h-[958.03px] bg-[#111C24] overflow-hidden flex flex-col justify-between"
     >
       {/* Top Torn Paper Texture (Figma #6838:2249: 1522.32 x 94.75px) */}
       <div className="absolute top-0 left-0 right-0 z-10 w-full h-[65px] md:h-[94.75px] pointer-events-none select-none overflow-hidden rotate-180">
@@ -120,18 +118,22 @@ export default function CtaSection({ onOpenLocation }: CtaSectionProps) {
       </div>
 
       {/* Center Content Box (Figma #6838:2244: width 726.42px, gap 31.58px) */}
-      <div className="cta-content relative z-10 w-full max-w-[726.42px] mx-auto px-4 my-auto pt-[100px] pb-[100px] flex flex-col items-center text-center">
-        {/* Kinetic Masked Title (Figma #6838:2245: Playfair Bold 101.07px, #ECBA61) */}
-        <h2 className="font-playfair font-bold text-[38px] sm:text-[62px] md:text-[80px] lg:text-[101.07px] leading-[1.02] tracking-tight text-[#ECBA61] mb-[31.58px] select-none">
-          <span className="block overflow-hidden py-1">
-            <span className="cta-line-inner inline-block will-change-transform">
-              Coffee, But Make
-            </span>
+      <div className="cta-content relative z-20 w-full max-w-[726.42px] mx-auto px-4 my-auto pt-[130px] md:pt-[160px] pb-[150px] md:pb-[180px] lg:pb-[200px] flex flex-col items-center text-center">
+        {/* Unclipped Title (Figma #6838:2245: Playfair Bold 101.07px, #ECBA61) */}
+        <h2 className="font-playfair font-bold text-[38px] sm:text-[62px] md:text-[80px] lg:text-[101.07px] leading-[1.08] tracking-tight text-[#ECBA61] mb-[31.58px] select-none">
+          <span className="block">
+            {"Coffee, But Make".split(" ").map((word, i) => (
+              <span key={i} className="cta-word inline-block will-change-transform mr-[0.25em]">
+                {word}
+              </span>
+            ))}
           </span>
-          <span className="block overflow-hidden py-1">
-            <span className="cta-line-inner inline-block will-change-transform">
-              It Unforgettable
-            </span>
+          <span className="block">
+            {"It Unforgettable".split(" ").map((word, i) => (
+              <span key={i} className="cta-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                {word}
+              </span>
+            ))}
           </span>
         </h2>
 

@@ -35,21 +35,35 @@ export default function SnacksSection() {
       const section = sectionRef.current;
       if (!section) return;
 
-      // 1. Kinetic Masked Header Reveal
-      gsap.from(".snack-header-line", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        duration: 1.1,
-        ease: "power4.out",
+      // Orchestrated Header Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".snack-header",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 2. Curtain Clip-Path Reveals
+      tl.from(".snack-subtitle", {
+        y: 15,
+        opacity: 0,
+        duration: 0.5,
+        clearProps: "all",
+      }).from(
+        ".snack-word",
+        {
+          y: 35,
+          opacity: 0,
+          filter: "blur(6px)",
+          stagger: 0.08,
+          duration: 0.8,
+          clearProps: "all",
+        },
+        "-=0.3"
+      );
+
+      // Curtain Clip-Path Reveals
       const snackCards = section.querySelectorAll(".snack-curtain");
       snackCards.forEach((card, idx) => {
         const img = card.querySelector(".snack-img");
@@ -101,16 +115,18 @@ export default function SnacksSection() {
         {/* Header (Figma #6838:2358) */}
         <div className="snack-header flex flex-col items-center text-center max-w-[500px] mx-auto mb-10 md:mb-[52px]">
           {/* Subtitle (Figma #6838:2359: Poppins Medium 16.84px, #D69E3D, uppercase) */}
-          <p className="font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#D69E3D] uppercase mb-[6.32px]">
+          <p className="snack-subtitle font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#D69E3D] uppercase mb-[6.32px] will-change-transform">
             others Food
           </p>
 
           {/* Title (Figma #6838:2360: Playfair Display Black 50.53px, #130E0A) */}
-          <h2 className="font-playfair font-black text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.15] md:leading-[67.38px] text-[#130E0A] capitalize select-none">
-            <span className="block overflow-hidden py-1">
-              <span className="snack-header-line inline-block will-change-transform">
-                Our Snacks Item
-              </span>
+          <h2 className="font-playfair font-black text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.18] md:leading-[67.38px] text-[#130E0A] capitalize select-none">
+            <span className="block">
+              {"Our Snacks Item".split(" ").map((word, i) => (
+                <span key={i} className="snack-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                  {word}
+                </span>
+              ))}
             </span>
           </h2>
         </div>

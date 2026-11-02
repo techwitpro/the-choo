@@ -46,36 +46,46 @@ export default function ExperienceSection() {
         });
       }
 
-      // 2. Kinetic Masked Headline Reveal
-      gsap.from(".experience-line-inner", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 1.1,
-        ease: "power4.out",
+      // 2. Orchestrated Header Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".experience-header",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 3. Right Description Entrance
-      gsap.from(".experience-desc", {
-        y: 20,
+      tl.from(".experience-subtitle", {
+        y: 15,
         opacity: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".experience-header",
-          start: "top 85%",
-          once: true,
-        },
-      });
+        duration: 0.6,
+        clearProps: "all",
+      })
+        .from(
+          ".experience-word",
+          {
+            y: 35,
+            opacity: 0,
+            filter: "blur(6px)",
+            stagger: 0.05,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.3"
+        )
+        .from(
+          ".experience-desc",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.4"
+        );
 
-      // 4. Curtain Clip-Path Reveal on Scroll
+      // 3. Curtain Clip-Path Reveal on Scroll
       const mosaicCards = section.querySelectorAll(".mosaic-curtain");
       mosaicCards.forEach((card, idx) => {
         const img = card.querySelector(".mosaic-img");
@@ -156,19 +166,23 @@ export default function ExperienceSection() {
         <div className="experience-header flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 lg:gap-[60px] mb-12 md:mb-[54.74px]">
           {/* Left Title Column (Figma #6838:2310: width: 588.13px) */}
           <div className="max-w-[588.13px]">
-            <p className="font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#ECBA61] uppercase mb-[6.32px]">
+            <p className="experience-subtitle font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#ECBA61] uppercase mb-[6.32px] will-change-transform">
               Welcome to THE CHOO Cafe
             </p>
-            <h2 className="font-playfair font-bold text-[36px] sm:text-[44px] md:text-[50.53px] leading-[1.12] md:leading-[67.38px] text-[#111C24] capitalize select-none">
-              <span className="block overflow-hidden py-1">
-                <span className="experience-line-inner inline-block will-change-transform">
-                  Experience A New
-                </span>
+            <h2 className="font-playfair font-bold text-[36px] sm:text-[44px] md:text-[50.53px] leading-[1.18] md:leading-[67.38px] text-[#111C24] capitalize select-none">
+              <span className="block">
+                {"Experience A New".split(" ").map((word, i) => (
+                  <span key={i} className="experience-word inline-block will-change-transform mr-[0.25em]">
+                    {word}
+                  </span>
+                ))}
               </span>
-              <span className="block overflow-hidden py-1">
-                <span className="experience-line-inner inline-block will-change-transform">
-                  Way To Taste Coffee
-                </span>
+              <span className="block">
+                {"Way To Taste Coffee".split(" ").map((word, i) => (
+                  <span key={i} className="experience-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                    {word}
+                  </span>
+                ))}
               </span>
             </h2>
           </div>

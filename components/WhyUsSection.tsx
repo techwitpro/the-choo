@@ -46,49 +46,59 @@ export default function WhyUsSection() {
       const leafRight = leafRightRef.current;
       if (!section) return;
 
-      // 1. Kinetic Masked Header Reveal
-      gsap.from(".why-header-line", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 1.1,
-        ease: "power4.out",
+      // Orchestrated Satisfying Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".why-header",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 2. Badge Icon Spring Entrance
-      gsap.from(".why-badge-img", {
-        scale: 0.75,
+      tl.from(".why-badge-img", {
+        scale: 0.7,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: "back.out(2)",
-        scrollTrigger: {
-          trigger: ".why-header",
-          start: "top 85%",
-          once: true,
-        },
-      });
+        clearProps: "all",
+      })
+        .from(
+          ".why-subtitle",
+          {
+            y: 15,
+            opacity: 0,
+            duration: 0.5,
+            clearProps: "all",
+          },
+          "-=0.4"
+        )
+        .from(
+          ".why-word",
+          {
+            y: 35,
+            opacity: 0,
+            filter: "blur(6px)",
+            stagger: 0.05,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.3"
+        )
+        .from(
+          ".why-column",
+          {
+            y: 40,
+            opacity: 0,
+            stagger: 0.15,
+            duration: 0.85,
+            ease: "back.out(1.4)",
+            clearProps: "all",
+          },
+          "-=0.4"
+        );
 
-      // 3. Staggered Column Entrance with Playful Spring
-      gsap.from(".why-column", {
-        y: 45,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.9,
-        ease: "back.out(1.5)",
-        scrollTrigger: {
-          trigger: ".why-columns-grid",
-          start: "top 85%",
-          once: true,
-        },
-      });
-
-      // 4. Continuous Organic Drift on Botanicals
+      // Continuous Organic Drift on Botanicals
       if (leafLeft) {
         gsap.to(leafLeft, {
           y: -25,
@@ -174,7 +184,7 @@ export default function WhyUsSection() {
       </div>
 
       {/* Content Container (Figma #6838:509: max-w-[1278.01px], centered) */}
-      <div className="relative z-10 w-full max-w-[1278px] mx-auto px-4 sm:px-6 pt-[120px] md:pt-[150px] pb-[130px] md:pb-[160px]">
+      <div className="relative z-20 w-full max-w-[1278px] mx-auto px-4 sm:px-6 pt-[130px] md:pt-[160px] pb-[160px] md:pb-[190px] lg:pb-[210px]">
         {/* Header with Badge Icon and Title (Figma #6838:510) */}
         <div className="why-header flex flex-col items-center text-center max-w-[812px] mx-auto mb-14 md:mb-[52.64px]">
           {/* Badge SVG (Figma #6838:511: 152.25 x 112.01px) */}
@@ -189,21 +199,25 @@ export default function WhyUsSection() {
           </div>
 
           {/* Subtitle (Figma #6838:565: Inter Medium 18.06px, letterSpacing 0.063em, uppercase, #ECBA61) */}
-          <span className="font-inter font-medium text-[15px] md:text-[18.06px] leading-[21.06px] tracking-[0.063em] text-[#ECBA61] uppercase mb-[6.32px] relative z-10">
+          <span className="why-subtitle font-inter font-medium text-[15px] md:text-[18.06px] leading-[21.06px] tracking-[0.063em] text-[#ECBA61] uppercase mb-[6.32px] relative z-10 will-change-transform">
             why us
           </span>
 
           {/* Title (Figma #6838:566: Playfair Display Bold 58.96px, lineHeight 67.38px, #ECBA61) */}
-          <h2 className="font-playfair font-bold text-[36px] sm:text-[48px] md:text-[58.96px] leading-[1.12] md:leading-[67.38px] text-[#ECBA61] capitalize select-none">
-            <span className="block overflow-hidden py-1">
-              <span className="why-header-line inline-block will-change-transform">
-                What Makes Our Coffee
-              </span>
+          <h2 className="font-playfair font-bold text-[36px] sm:text-[48px] md:text-[58.96px] leading-[1.18] md:leading-[67.38px] text-[#ECBA61] capitalize select-none">
+            <span className="block">
+              {"What Makes Our Coffee".split(" ").map((word, i) => (
+                <span key={i} className="why-word inline-block will-change-transform mr-[0.25em]">
+                  {word}
+                </span>
+              ))}
             </span>
-            <span className="block overflow-hidden py-1">
-              <span className="why-header-line inline-block will-change-transform">
-                Taste So Special?
-              </span>
+            <span className="block">
+              {"Taste So Special?".split(" ").map((word, i) => (
+                <span key={i} className="why-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                  {word}
+                </span>
+              ))}
             </span>
           </h2>
         </div>

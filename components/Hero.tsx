@@ -33,46 +33,49 @@ export default function Hero({ onOpenLocation }: HeroProps) {
       const mouseIcon = mouseIconRef.current;
       if (!hero) return;
 
-      // 1. Kinetic Masked Headline Reveal (Snappy, modern spring-reveal)
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-      tl.from(".hero-line-inner", {
-        y: "115%",
-        rotateZ: 2,
+      // 1. Satisfying Word-by-Word Kinetic Reveal
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.from(".hero-word", {
+        y: 40,
         opacity: 0,
-        stagger: 0.14,
-        duration: 1.2,
+        filter: "blur(6px)",
+        stagger: 0.05,
+        duration: 0.85,
         delay: 0.1,
+        clearProps: "all",
       })
         .from(
           ".hero-subtitle",
           {
-            y: 25,
+            y: 20,
             opacity: 0,
-            duration: 0.9,
-            ease: "power3.out",
+            duration: 0.8,
+            clearProps: "all",
           },
-          "-=0.7"
+          "-=0.5"
         )
         .from(
           ".hero-counter",
           {
             scale: 0.85,
-            y: 20,
+            y: 18,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.75,
             ease: "back.out(1.8)",
+            clearProps: "all",
           },
-          "-=0.5"
+          "-=0.4"
         )
         .from(
           ".hero-scroll-badge",
           {
             scale: 0,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.85,
             ease: "back.out(1.6)",
+            clearProps: "all",
           },
-          "-=0.6"
+          "-=0.5"
         );
 
       // 2. Organic Floating Physics on Left Coffee Bean
@@ -151,7 +154,7 @@ export default function Hero({ onOpenLocation }: HeroProps) {
   return (
     <section
       ref={heroRef}
-      className="relative w-full h-[815px] bg-[#111C24] overflow-hidden"
+      className="relative w-full min-h-[815px] lg:h-[815px] bg-[#111C24] overflow-hidden"
     >
       {/* Background Hero Image (Figma #6838:1526: 1517 x 765.73px) */}
       <div className="absolute inset-0 z-0">
@@ -188,21 +191,25 @@ export default function Hero({ onOpenLocation }: HeroProps) {
       </div>
 
       {/* Center Content Box (Figma #6838:1539: x: 308.46, y: 226.92, w: 900.13, h: 408.95) */}
-      <div className="relative z-20 w-full max-w-[900.13px] mx-auto px-4 pt-10 sm:pt-14 md:pt-[54px] flex flex-col items-center text-center">
-        {/* Kinetic Masked Headline (Playfair Display Bold 101.07px) */}
-        <h1 className="font-playfair font-bold text-white text-[42px] sm:text-[68px] md:text-[88px] lg:text-[101.07px] leading-[0.94em] tracking-tight mb-4 drop-shadow-sm select-none">
-          <span className="block overflow-hidden py-1">
-            <span className="hero-line-inner inline-block will-change-transform">
-              Discover the Coffee
-            </span>
+      <div className="relative z-20 w-full max-w-[960.13px] mx-auto px-4 pt-10 sm:pt-14 md:pt-[54px] pb-24 md:pb-20 flex flex-col items-center text-center">
+        {/* Satisfying Word-by-Word Headline (Playfair Display Bold 101.07px) */}
+        <h1 className="font-playfair font-bold text-white text-[42px] sm:text-[68px] md:text-[88px] lg:text-[101.07px] leading-[1.05] tracking-tight mb-4 drop-shadow-sm select-none">
+          <span className="block">
+            {"Discover the Coffee".split(" ").map((word, i) => (
+              <span key={i} className="hero-word inline-block will-change-transform mr-[0.25em]">
+                {word}
+              </span>
+            ))}
           </span>
-          <span className="block overflow-hidden py-1">
-            <span className="hero-line-inner inline-block will-change-transform">
-              That Changes
-            </span>
+          <span className="block">
+            {"That Changes".split(" ").map((word, i) => (
+              <span key={i} className="hero-word inline-block will-change-transform mr-[0.25em]">
+                {word}
+              </span>
+            ))}
           </span>
-          <span className="block overflow-hidden py-1">
-            <span className="hero-line-inner inline-block will-change-transform">
+          <span className="block">
+            <span className="hero-word inline-block will-change-transform">
               Everything
             </span>
           </span>

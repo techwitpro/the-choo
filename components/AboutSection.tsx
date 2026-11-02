@@ -58,49 +58,57 @@ export default function AboutSection() {
         }
       }
 
-      // 2. Kinetic Masked Headline Reveal
-      gsap.from(".about-line-inner", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 1.1,
-        ease: "power4.out",
+      // 2. Orchestrated Text Content Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".about-text-content",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 3. Badge Icon Spring Entrance
-      gsap.from(".about-badge-icon", {
+      tl.from(".about-badge-icon", {
         scale: 0.7,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: "back.out(2)",
-        scrollTrigger: {
-          trigger: ".about-text-content",
-          start: "top 85%",
-          once: true,
-        },
-      });
+        clearProps: "all",
+      })
+        .from(
+          ".about-subtitle",
+          {
+            y: 15,
+            opacity: 0,
+            duration: 0.5,
+            clearProps: "all",
+          },
+          "-=0.4"
+        )
+        .from(
+          ".about-word",
+          {
+            y: 35,
+            opacity: 0,
+            filter: "blur(6px)",
+            stagger: 0.05,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.3"
+        )
+        .from(
+          ".about-story-p",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.4"
+        );
 
-      // 4. Story Paragraph Entrance
-      gsap.from(".about-story-p", {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.25,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".about-text-content",
-          start: "top 85%",
-          once: true,
-        },
-      });
-
-      // 5. Organic sway on background bean shape
+      // 3. Organic sway on background bean shape
       if (shape) {
         gsap.to(shape, {
           y: -18,
@@ -168,21 +176,25 @@ export default function AboutSection() {
             </div>
 
             {/* Subtitle (Figma #6838:1491: Poppins Medium 16.84px, uppercase, #ECBA61) */}
-            <p className="font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#ECBA61] uppercase mb-[6.32px] relative z-10">
+            <p className="about-subtitle font-poppins font-medium text-[14px] md:text-[16.84px] leading-[21.06px] tracking-[0.0675em] text-[#ECBA61] uppercase mb-[6.32px] relative z-10 will-change-transform">
               About us
             </p>
 
             {/* Title (Figma #6838:1492: Playfair Display Bold 50.53px, lineHeight 67.38px, #111C24) */}
-            <h2 className="font-playfair font-bold text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.15] md:leading-[67.38px] text-[#111C24] capitalize mb-[23.16px] relative z-10 select-none">
-              <span className="block overflow-hidden py-1">
-                <span className="about-line-inner inline-block will-change-transform">
-                  Read The Story
-                </span>
+            <h2 className="font-playfair font-bold text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.18] md:leading-[67.38px] text-[#111C24] capitalize mb-[23.16px] relative z-10 select-none">
+              <span className="block">
+                {"Read The Story".split(" ").map((word, i) => (
+                  <span key={i} className="about-word inline-block will-change-transform mr-[0.25em]">
+                    {word}
+                  </span>
+                ))}
               </span>
-              <span className="block overflow-hidden py-1">
-                <span className="about-line-inner inline-block will-change-transform">
-                  Behind Us
-                </span>
+              <span className="block">
+                {"Behind Us".split(" ").map((word, i) => (
+                  <span key={i} className="about-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                    {word}
+                  </span>
+                ))}
               </span>
             </h2>
 

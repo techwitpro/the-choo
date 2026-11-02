@@ -20,36 +20,37 @@ export default function GallerySection() {
       const section = sectionRef.current;
       if (!section) return;
 
-      // 1. Center Title Kinetic Mask Reveal
-      gsap.from(".gallery-title-line", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 1.1,
-        ease: "power4.out",
+      // 1. Orchestrated Gallery Header Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".gallery-header",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // 2. Center Badge Spring Entrance
-      gsap.from(".gallery-badge-img", {
+      tl.from(".gallery-badge-img", {
         scale: 0.8,
         y: 18,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.75,
         ease: "back.out(1.8)",
-        scrollTrigger: {
-          trigger: ".gallery-header",
-          start: "top 88%",
-          once: true,
+        clearProps: "all",
+      }).from(
+        ".gallery-word",
+        {
+          y: 35,
+          opacity: 0,
+          filter: "blur(6px)",
+          stagger: 0.05,
+          duration: 0.8,
+          clearProps: "all",
         },
-      });
+        "-=0.3"
+      );
 
-      // 3. Staggered Curtain Reveal on All 5 Gallery Photos
+      // 2. Staggered Curtain Reveal on All 5 Gallery Photos
       const curtains = section.querySelectorAll(".gallery-curtain");
       curtains.forEach((card, idx) => {
         const img = card.querySelector(".gallery-img");
@@ -88,13 +89,14 @@ export default function GallerySection() {
         }
       });
 
-      // 4. Subtle Text Paragraph Reveals
+      // 3. Subtle Text Paragraph Reveals
       gsap.from(".gallery-paragraph", {
         y: 20,
         opacity: 0,
         stagger: 0.15,
         duration: 0.8,
         ease: "power3.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: section,
           start: "top 75%",
@@ -170,16 +172,20 @@ export default function GallerySection() {
               </div>
 
               {/* Title (Figma #6838:2356: Playfair Display Bold 58.96px, lineHeight 77.91px, #111C24) */}
-              <h2 className="font-playfair font-bold text-[34px] sm:text-[46px] md:text-[58.96px] leading-[1.12] md:leading-[77.91px] text-[#111C24] capitalize select-none">
-                <span className="block overflow-hidden py-1">
-                  <span className="gallery-title-line inline-block will-change-transform">
-                    Coffee Shared With
-                  </span>
+              <h2 className="font-playfair font-bold text-[34px] sm:text-[46px] md:text-[58.96px] leading-[1.18] md:leading-[77.91px] text-[#111C24] capitalize select-none">
+                <span className="block">
+                  {"Coffee Shared With".split(" ").map((word, i) => (
+                    <span key={i} className="gallery-word inline-block will-change-transform mr-[0.25em]">
+                      {word}
+                    </span>
+                  ))}
                 </span>
-                <span className="block overflow-hidden py-1">
-                  <span className="gallery-title-line inline-block will-change-transform">
-                    A Friend Is Happiness
-                  </span>
+                <span className="block">
+                  {"A Friend Is Happiness".split(" ").map((word, i) => (
+                    <span key={i} className="gallery-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                      {word}
+                    </span>
+                  ))}
                 </span>
               </h2>
             </div>

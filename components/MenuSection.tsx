@@ -135,33 +135,45 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
         ease: "sine.inOut",
       });
 
-      // Kinetic Masked Header Reveal
-      gsap.from(".menu-header-line", {
-        y: "115%",
-        rotateZ: 1.5,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 1.1,
-        ease: "power4.out",
+      // Orchestrated Header Stagger Timeline
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".menu-header",
           start: "top 85%",
           once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      // Menu Badge Spring Reveal
-      gsap.from(".menu-badge-icon", {
+      tl.from(".menu-badge-icon", {
         scale: 0.7,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: "back.out(2)",
-        scrollTrigger: {
-          trigger: ".menu-header",
-          start: "top 85%",
-          once: true,
-        },
-      });
+        clearProps: "all",
+      })
+        .from(
+          ".menu-subtitle",
+          {
+            y: 15,
+            opacity: 0,
+            duration: 0.5,
+            clearProps: "all",
+          },
+          "-=0.4"
+        )
+        .from(
+          ".menu-word",
+          {
+            y: 35,
+            opacity: 0,
+            filter: "blur(6px)",
+            stagger: 0.05,
+            duration: 0.8,
+            clearProps: "all",
+          },
+          "-=0.3"
+        );
     },
     { scope: sectionRef }
   );
@@ -201,21 +213,25 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
           </div>
 
           {/* Subtitle (Figma #6838:2100: Inter Medium 18.06px, #111C24, uppercase) */}
-          <span className="font-inter font-medium text-[15px] md:text-[18.06px] leading-[21.06px] tracking-[0.063em] text-[#111C24] uppercase mb-[6px] relative z-10">
+          <span className="menu-subtitle font-inter font-medium text-[15px] md:text-[18.06px] leading-[21.06px] tracking-[0.063em] text-[#111C24] uppercase mb-[6px] relative z-10 will-change-transform">
             Our menu
           </span>
 
           {/* Title (Figma #6838:2099: Playfair Display Bold 50.53px, lineHeight 67.38px, #111C24) */}
-          <h2 className="font-playfair font-bold text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.15] md:leading-[67.38px] text-[#111C24] capitalize select-none">
-            <span className="block overflow-hidden py-1">
-              <span className="menu-header-line inline-block will-change-transform">
-                Explore All Our Delicious
-              </span>
+          <h2 className="font-playfair font-bold text-[34px] sm:text-[44px] md:text-[50.53px] leading-[1.18] md:leading-[67.38px] text-[#111C24] capitalize select-none">
+            <span className="block">
+              {"Explore All Our Delicious".split(" ").map((word, i) => (
+                <span key={i} className="menu-word inline-block will-change-transform mr-[0.25em]">
+                  {word}
+                </span>
+              ))}
             </span>
-            <span className="block overflow-hidden py-1">
-              <span className="menu-header-line inline-block will-change-transform">
-                Food And Coffee Offerings
-              </span>
+            <span className="block">
+              {"Food And Coffee Offerings".split(" ").map((word, i) => (
+                <span key={i} className="menu-word inline-block will-change-transform mr-[0.25em] last:mr-0">
+                  {word}
+                </span>
+              ))}
             </span>
           </h2>
         </div>
@@ -276,7 +292,7 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
                   className="group flex items-center justify-between gap-4 cursor-pointer"
                 >
                   {/* Left: Icon + Text */}
-                  <div className="flex items-center gap-[21.06px]">
+                  <div className="flex items-center gap-[21.06px] min-w-0">
                     {/* Gold Circle Cup Icon (Figma #6838:2123: 80.01 x 80.01px, #ECBA61) */}
                     <div className="w-[68px] h-[68px] sm:w-[80.01px] sm:h-[80.01px] rounded-full bg-[#ECBA61] flex items-center justify-center shrink-0 p-1.5 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-12 shadow-sm">
                       <Image
@@ -288,8 +304,8 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
                       />
                     </div>
 
-                    {/* Text Details (width 300.04px) */}
-                    <div className="max-w-[300.04px]">
+                    {/* Text Details */}
+                    <div className="flex-1 min-w-0 max-w-[360px]">
                       <h3 className="font-poppins font-semibold text-[20px] sm:text-[23.16px] leading-[38.95px] text-[#111C24] capitalize group-hover:text-[#D69E3D] transition-colors">
                         {item.name}
                       </h3>
@@ -322,7 +338,7 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
                   className="group flex items-center justify-between gap-4 cursor-pointer"
                 >
                   {/* Left: Icon + Text */}
-                  <div className="flex items-center gap-[21.06px]">
+                  <div className="flex items-center gap-[21.06px] min-w-0">
                     {/* Gold Circle Cup Icon (Figma #6838:2164: 80.01 x 80.01px, #ECBA61) */}
                     <div className="w-[68px] h-[68px] sm:w-[80.01px] sm:h-[80.01px] rounded-full bg-[#ECBA61] flex items-center justify-center shrink-0 p-1.5 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-12 shadow-sm">
                       <Image
@@ -334,8 +350,8 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
                       />
                     </div>
 
-                    {/* Text Details (width 300.04px) */}
-                    <div className="max-w-[300.04px]">
+                    {/* Text Details */}
+                    <div className="flex-1 min-w-0 max-w-[360px]">
                       <h3 className="font-poppins font-semibold text-[20px] sm:text-[23.16px] leading-[38.95px] text-[#111C24] capitalize group-hover:text-[#D69E3D] transition-colors">
                         {item.name}
                       </h3>
@@ -345,7 +361,7 @@ export default function MenuSection({ onSelectItem }: MenuSectionProps) {
                     </div>
                   </div>
 
-                  {/* Right: Price (Figma: Inter Black 17.77px, #111C24) */}
+                  {/* Right: Price */}
                   <div className="shrink-0 text-right">
                     <span className="font-inter font-black text-[16px] sm:text-[17.77px] leading-[23.16px] tracking-[0.0237em] text-[#111C24] transition-transform duration-300 group-hover:scale-110 inline-block">
                       {item.price}

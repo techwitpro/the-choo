@@ -24,6 +24,7 @@ export default function Footer() {
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".footer-hero",
           start: "top 85%",
@@ -38,6 +39,7 @@ export default function Footer() {
         stagger: 0.15,
         duration: 0.85,
         ease: "back.out(1.4)",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".footer-columns-wrap",
           start: "top 85%",
@@ -51,6 +53,7 @@ export default function Footer() {
         transformOrigin: "center",
         duration: 0.8,
         ease: "power2.inOut",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".footer-columns-wrap",
           start: "top 85%",
@@ -64,6 +67,7 @@ export default function Footer() {
         transformOrigin: "center",
         duration: 0.9,
         ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".footer-h-divider",
           start: "top 95%",
@@ -78,6 +82,7 @@ export default function Footer() {
         stagger: 0.1,
         duration: 0.6,
         ease: "back.out(2)",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".footer-bottom-bar",
           start: "top 95%",
